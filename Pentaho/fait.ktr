@@ -537,11 +537,6 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Join magasin</from>
-      <to>Sort Date 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Sort Date 2</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
@@ -558,17 +553,22 @@
     </hop>
     <hop>
       <from>Select values</from>
-      <to>Sort numTicket</to>
+      <to>Sort </to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort numTicket</from>
+      <from>Sort </from>
       <to>Aggreagate</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Aggreagate</from>
-      <to>Table output</to>
+      <to>Fait Table output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Join magasin</from>
+      <to>Sort Date 2</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -620,7 +620,7 @@
     </remotesteps>
     <GUI>
       <xloc>896</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -652,7 +652,7 @@
     </remotesteps>
     <GUI>
       <xloc>768</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -752,7 +752,7 @@
     </remotesteps>
     <GUI>
       <xloc>544</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -818,7 +818,7 @@
     </remotesteps>
     <GUI>
       <xloc>368</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1163,7 +1163,7 @@
     </GUI>
   </step>
   <step>
-    <name>Sort numTicket</name>
+    <name>Sort </name>
     <type>SortRows</type>
     <description />
     <distribute>Y</distribute>
@@ -1221,7 +1221,7 @@
     </GUI>
   </step>
   <step>
-    <name>Table output</name>
+    <name>Fait Table output</name>
     <type>TableOutput</type>
     <description />
     <distribute>Y</distribute>
@@ -1260,7 +1260,7 @@
     </remotesteps>
     <GUI>
       <xloc>1040</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1292,7 +1292,7 @@
     </remotesteps>
     <GUI>
       <xloc>208</xloc>
-      <yloc>112</yloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1304,6 +1304,14 @@
   <attributes>
     <group>
       <name>explorerState</name>
+      <attribute>
+        <key>Fait Table output</key>
+        <value />
+      </attribute>
+      <attribute>
+        <key>Sort </key>
+        <value />
+      </attribute>
     </group>
   </attributes>
 </transformation>

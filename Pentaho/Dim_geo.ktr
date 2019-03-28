@@ -493,37 +493,37 @@
   </connection>
   <order>
     <hop>
-      <from>Tri dpt</from>
-      <to>Tri dpt</to>
+      <from>sort dpt</from>
+      <to>sort dpt</to>
       <enabled>N</enabled>
     </hop>
     <hop>
-      <from>Extraction depuis dichier ODS</from>
-      <to>Extraction depuis dichier ODS</to>
+      <from>Extraction marketing</from>
+      <to>Extraction marketing</to>
       <enabled>N</enabled>
     </hop>
     <hop>
-      <from>Extraction depuis dichier ODS</from>
-      <to>Tri marketing</to>
+      <from>Extraction marketing</from>
+      <to>sort marketing</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Tri marketing</from>
-      <to>Jointure</to>
+      <from>sort marketing</from>
+      <to>join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Tri dpt</from>
-      <to>Jointure</to>
+      <from>sort dpt</from>
+      <to>join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>departmentInsee2016</from>
-      <to>Tri dpt</to>
+      <to>sort dpt</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Jointure</from>
+      <from>join</from>
       <to>Filtrer_mag</to>
       <enabled>Y</enabled>
     </hop>
@@ -539,7 +539,7 @@
     </hop>
     <hop>
       <from>Select values</from>
-      <to>Insert into table</to>
+      <to>Insert into magasin</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -569,7 +569,7 @@
     </GUI>
   </step>
   <step>
-    <name>Extraction depuis dichier ODS</name>
+    <name>Extraction marketing</name>
     <type>ExcelInput</type>
     <description />
     <distribute>Y</distribute>
@@ -780,7 +780,7 @@
     </GUI>
   </step>
   <step>
-    <name>Insert into table</name>
+    <name>Insert into magasin</name>
     <type>TableOutput</type>
     <description />
     <distribute>Y</distribute>
@@ -824,7 +824,7 @@
     </GUI>
   </step>
   <step>
-    <name>Jointure</name>
+    <name>join</name>
     <type>MergeJoin</type>
     <description />
     <distribute>Y</distribute>
@@ -835,8 +835,8 @@
       <schema_name />
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Tri dpt</step1>
-    <step2>Tri marketing</step2>
+    <step1>sort dpt</step1>
+    <step2>sort marketing</step2>
     <keys_1>
       <key>Dpt</key>
     </keys_1>
@@ -910,7 +910,7 @@
     </GUI>
   </step>
   <step>
-    <name>Tri dpt</name>
+    <name>sort dpt</name>
     <type>SortRows</type>
     <description />
     <distribute>Y</distribute>
@@ -952,7 +952,7 @@
     </GUI>
   </step>
   <step>
-    <name>Tri marketing</name>
+    <name>sort marketing</name>
     <type>SortRows</type>
     <description />
     <distribute>Y</distribute>
@@ -1074,6 +1074,26 @@
   <attributes>
     <group>
       <name>explorerState</name>
+      <attribute>
+        <key>sort dpt</key>
+        <value />
+      </attribute>
+      <attribute>
+        <key>join</key>
+        <value />
+      </attribute>
+      <attribute>
+        <key>Extraction marketing</key>
+        <value />
+      </attribute>
+      <attribute>
+        <key>Insert into magasin</key>
+        <value />
+      </attribute>
+      <attribute>
+        <key>sort marketing</key>
+        <value />
+      </attribute>
     </group>
   </attributes>
 </transformation>
