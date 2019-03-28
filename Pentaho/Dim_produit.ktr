@@ -493,31 +493,31 @@
   <order>
     <hop>
       <from>Input_Catalogue</from>
-      <to>Check_ISBN</to>
+      <to>Check_isbn</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check_ISBN</from>
+      <from>Check_isbn</from>
       <to>replace_isbn</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check_ISBN</from>
-      <to>Check_LANGUAGE</to>
+      <from>Check_isbn</from>
+      <to>Check_language</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>replace_isbn</from>
-      <to>Check_LANGUAGE</to>
+      <to>Check_language</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check_LANGUAGE</from>
+      <from>Check_language</from>
       <to>replace_language</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Check_LANGUAGE</from>
+      <from>Check_language</from>
       <to>check_PUBDATE</to>
       <enabled>Y</enabled>
     </hop>
@@ -608,7 +608,46 @@
     </hop>
   </order>
   <step>
-    <name>Check_ISBN</name>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>AUTHOR_SECOND</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>None</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>896</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Check_isbn</name>
     <type>FilterRows</type>
     <description />
     <distribute>Y</distribute>
@@ -618,7 +657,7 @@
       <method>none</method>
       <schema_name />
     </partitioning>
-    <send_true_to>Check_LANGUAGE</send_true_to>
+    <send_true_to>Check_language</send_true_to>
     <send_false_to>replace_isbn</send_false_to>
     <compare>
       <condition>
@@ -652,7 +691,7 @@
     </GUI>
   </step>
   <step>
-    <name>Check_LANGUAGE</name>
+    <name>Check_language</name>
     <type>FilterRows</type>
     <description />
     <distribute>Y</distribute>
@@ -740,6 +779,188 @@
     </GUI>
   </step>
   <step>
+    <name>Delete space</name>
+    <type>ReplaceString</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>AUTHOR_FIRST</in_stream_name>
+        <out_stream_name />
+        <use_regex>yes</use_regex>
+        <replace_string>\s*</replace_string>
+        <replace_by_string />
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string />
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>AUTHOR_SECOND</in_stream_name>
+        <out_stream_name />
+        <use_regex>yes</use_regex>
+        <replace_string>\s*</replace_string>
+        <replace_by_string />
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string />
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1136</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter &amp;</name>
+    <type>FilterRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <send_true_to>Split_by_&amp;</send_true_to>
+    <send_false_to>Add constants</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>AUTHORS</leftvalue>
+        <function>REGEXP</function>
+        <rightvalue />
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>.*&amp;.*</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask />
+        </value>
+      </condition>
+    </compare>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>832</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter ;</name>
+    <type>FilterRows</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <send_true_to>Split_by_;</send_true_to>
+    <send_false_to>Filter &amp;</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>AUTHORS</leftvalue>
+        <function>REGEXP</function>
+        <rightvalue />
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>.*;.*</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask />
+        </value>
+      </condition>
+    </compare>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>688</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Input_Catalogue</name>
+    <type>TableInput</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>NF26</connection>
+    <sql>SELECT
+  REF
+, ISBN
+, TITLE
+, AUTHORS
+, LANGUAGE
+, PUBDATE
+, PUBLISHER
+, TAGS
+, GENRE
+FROM NF26.CATALOGUE
+</sql>
+    <limit>0</limit>
+    <lookup />
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Insert_produit</name>
     <type>TableOutput</type>
     <description />
@@ -784,10 +1005,10 @@
     </GUI>
   </step>
   <step>
-    <name>check_AUTHOR</name>
-    <type>ReplaceString</type>
+    <name>Rename author</name>
+    <type>SelectValues</type>
     <description />
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution />
     <copies>1</copies>
     <partitioning>
@@ -796,16 +1017,96 @@
     </partitioning>
     <fields>
       <field>
-        <in_stream_name>AUTHORS</in_stream_name>
-        <out_stream_name />
-        <use_regex>yes</use_regex>
-        <replace_string>\d+-\d+,</replace_string>
-        <replace_by_string />
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string />
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
+        <name>REF</name>
+      </field>
+      <field>
+        <name>ISBN</name>
+      </field>
+      <field>
+        <name>TITLE</name>
+      </field>
+      <field>
+        <name>AUTHORS</name>
+        <rename>AUTHOR_FIRST</rename>
+      </field>
+      <field>
+        <name>AUTHOR_SECOND</name>
+      </field>
+      <field>
+        <name>LANGUAGE</name>
+      </field>
+      <field>
+        <name>PUBDATE</name>
+      </field>
+      <field>
+        <name>PUBLISHER</name>
+      </field>
+      <field>
+        <name>TAGS</name>
+      </field>
+      <field>
+        <name>GENRE</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1008</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split_by_&amp;</name>
+    <type>FieldSplitter</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <splitfield>AUTHORS</splitfield>
+    <delimiter>&amp;</delimiter>
+    <enclosure />
+    <fields>
+      <field>
+        <name>AUTHOR_FIRST</name>
+        <id />
+        <idrem>N</idrem>
+        <type>String</type>
+        <format />
+        <group />
+        <decimal />
+        <currency />
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif />
+        <ifnull />
+        <trimtype>none</trimtype>
+      </field>
+      <field>
+        <name>AUTHOR_SECOND</name>
+        <id />
+        <idrem>N</idrem>
+        <type>String</type>
+        <format />
+        <group />
+        <decimal />
+        <currency />
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif />
+        <ifnull />
+        <trimtype>none</trimtype>
       </field>
     </fields>
     <attributes />
@@ -817,8 +1118,68 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
+      <xloc>1008</xloc>
       <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split_by_;</name>
+    <type>FieldSplitter</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <splitfield>AUTHORS</splitfield>
+    <delimiter>;</delimiter>
+    <enclosure />
+    <fields>
+      <field>
+        <name>AUTHOR_FIRST</name>
+        <id />
+        <idrem>N</idrem>
+        <type>String</type>
+        <format />
+        <group />
+        <decimal />
+        <currency />
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif />
+        <ifnull />
+        <trimtype>none</trimtype>
+      </field>
+      <field>
+        <name>AUTHOR_SECOND</name>
+        <id />
+        <idrem>N</idrem>
+        <type>String</type>
+        <format />
+        <group />
+        <decimal />
+        <currency />
+        <length>-1</length>
+        <precision>-1</precision>
+        <nullif />
+        <ifnull />
+        <trimtype>none</trimtype>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1008</xloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -865,6 +1226,45 @@
     </GUI>
   </step>
   <step>
+    <name>check_AUTHOR</name>
+    <type>ReplaceString</type>
+    <description />
+    <distribute>N</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>AUTHORS</in_stream_name>
+        <out_stream_name />
+        <use_regex>yes</use_regex>
+        <replace_string>\d+-\d+,</replace_string>
+        <replace_by_string />
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string />
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>688</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>check_PUBDATE</name>
     <type>ReplaceString</type>
     <description />
@@ -900,49 +1300,6 @@
     <GUI>
       <xloc>384</xloc>
       <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Input_Catalogue</name>
-    <type>TableInput</type>
-    <description />
-    <distribute>N</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>NF26</connection>
-    <sql>SELECT
-  REF
-, ISBN
-, TITLE
-, AUTHORS
-, LANGUAGE
-, PUBDATE
-, PUBLISHER
-, TAGS
-, GENRE
-FROM NF26.CATALOGUE
-</sql>
-    <limit>0</limit>
-    <lookup />
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1103,372 +1460,6 @@ FROM NF26.CATALOGUE
       <draw>Y</draw>
     </GUI>
   </step>
-  <step>
-    <name>Filter &amp;</name>
-    <type>FilterRows</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <send_true_to>Split_by_&amp;</send_true_to>
-    <send_false_to>Add constants</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>AUTHORS</leftvalue>
-        <function>REGEXP</function>
-        <rightvalue />
-        <value>
-          <name>constant</name>
-          <type>String</type>
-          <text>.*&amp;.*</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask />
-        </value>
-      </condition>
-    </compare>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>832</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Filter ;</name>
-    <type>FilterRows</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <send_true_to>Split_by_;</send_true_to>
-    <send_false_to>Filter &amp;</send_false_to>
-    <compare>
-      <condition>
-        <negated>N</negated>
-        <leftvalue>AUTHORS</leftvalue>
-        <function>REGEXP</function>
-        <rightvalue />
-        <value>
-          <name>constant</name>
-          <type>String</type>
-          <text>.*;.*</text>
-          <length>-1</length>
-          <precision>-1</precision>
-          <isnull>N</isnull>
-          <mask />
-        </value>
-      </condition>
-    </compare>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>688</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split_by_&amp;</name>
-    <type>FieldSplitter</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <splitfield>AUTHORS</splitfield>
-    <delimiter>&amp;</delimiter>
-    <enclosure />
-    <fields>
-      <field>
-        <name>AUTHOR_FIRST</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>none</trimtype>
-      </field>
-      <field>
-        <name>AUTHOR_SECOND</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>none</trimtype>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1008</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split_by_;</name>
-    <type>FieldSplitter</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <splitfield>AUTHORS</splitfield>
-    <delimiter>;</delimiter>
-    <enclosure />
-    <fields>
-      <field>
-        <name>AUTHOR_FIRST</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>none</trimtype>
-      </field>
-      <field>
-        <name>AUTHOR_SECOND</name>
-        <id />
-        <idrem>N</idrem>
-        <type>String</type>
-        <format />
-        <group />
-        <decimal />
-        <currency />
-        <length>-1</length>
-        <precision>-1</precision>
-        <nullif />
-        <ifnull />
-        <trimtype>none</trimtype>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1008</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Add constants</name>
-    <type>Constant</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <name>AUTHOR_SECOND</name>
-        <type>String</type>
-        <format />
-        <currency />
-        <decimal />
-        <group />
-        <nullif>None</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>896</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Rename author</name>
-    <type>SelectValues</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <name>REF</name>
-        <rename />
-      </field>
-      <field>
-        <name>ISBN</name>
-        <rename />
-      </field>
-      <field>
-        <name>TITLE</name>
-        <rename />
-      </field>
-      <field>
-        <name>AUTHORS</name>
-        <rename>AUTHOR_FIRST</rename>
-      </field>
-      <field>
-        <name>AUTHOR_SECOND</name>
-        <rename />
-      </field>
-      <field>
-        <name>LANGUAGE</name>
-        <rename />
-      </field>
-      <field>
-        <name>PUBDATE</name>
-        <rename />
-      </field>
-      <field>
-        <name>PUBLISHER</name>
-        <rename />
-      </field>
-      <field>
-        <name>TAGS</name>
-        <rename />
-      </field>
-      <field>
-        <name>GENRE</name>
-        <rename />
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1008</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Delete space</name>
-    <type>ReplaceString</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>AUTHOR_FIRST</in_stream_name>
-        <out_stream_name />
-        <use_regex>yes</use_regex>
-        <replace_string>\s*</replace_string>
-        <replace_by_string />
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string />
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>AUTHOR_SECOND</in_stream_name>
-        <out_stream_name />
-        <use_regex>yes</use_regex>
-        <replace_string>\s*</replace_string>
-        <replace_by_string />
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string />
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1136</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step_error_handling>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
@@ -1478,47 +1469,11 @@ FROM NF26.CATALOGUE
     <group>
       <name>explorerState</name>
       <attribute>
-        <key>Filter &amp;</key>
+        <key>Check_language</key>
         <value />
       </attribute>
       <attribute>
-        <key>Split_by_;</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Check_PUBLISHER</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>check_PUBDATE</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Delete space</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Rename author</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Input_Catalogue</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>replace_publisher</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>check_AUTHOR</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Split_by_&amp;</key>
-        <value />
-      </attribute>
-      <attribute>
-        <key>Filter ;</key>
+        <key>Check_isbn</key>
         <value />
       </attribute>
     </group>

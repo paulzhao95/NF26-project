@@ -752,7 +752,7 @@
     </remotesteps>
     <GUI>
       <xloc>544</xloc>
-      <yloc>96</yloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -817,8 +817,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>100</yloc>
+      <xloc>368</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -836,15 +836,12 @@
     <fields>
       <field>
         <name>MAGASIN</name>
-        <rename />
       </field>
       <field>
         <name>DATETICKET</name>
-        <rename />
       </field>
       <field>
         <name>ISBN</name>
-        <rename />
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1034,7 +1031,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>368</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1294,8 +1291,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>200</xloc>
-      <yloc>100</yloc>
+      <xloc>208</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
