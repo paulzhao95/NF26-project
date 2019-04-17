@@ -538,7 +538,7 @@
         <set_empty_string>N</set_empty_string>
       </field>
     </fields>
-    <limit>365</limit>
+    <limit>366</limit>
     <never_ending>N</never_ending>
     <interval_in_ms />
     <row_time_field />
