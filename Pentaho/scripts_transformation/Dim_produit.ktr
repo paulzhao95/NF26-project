@@ -565,7 +565,7 @@
     <hop>
       <from>Check_pubdate</from>
       <to>Check_publisher</to>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
     </hop>
     <hop>
       <from>Check_pubdate</from>
