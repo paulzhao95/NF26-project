@@ -499,16 +499,6 @@
     </hop>
     <hop>
       <from>Check_isbn</from>
-      <to>Replace_isbn</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Check_isbn</from>
-      <to>Check_language</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Replace_isbn</from>
       <to>Check_language</to>
       <enabled>Y</enabled>
     </hop>
@@ -622,6 +612,16 @@
       <to>Rename_author</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Generate rows</from>
+      <to>Check_language</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Check_isbn</from>
+      <to>Dummy (do nothing)</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Add_None_author2</name>
@@ -674,7 +674,7 @@
       <schema_name />
     </partitioning>
     <send_true_to>Check_language</send_true_to>
-    <send_false_to>Replace_isbn</send_false_to>
+    <send_false_to>Dummy (do nothing)</send_false_to>
     <compare>
       <condition>
         <negated>N</negated>
@@ -1266,40 +1266,6 @@ FROM NF26.CATALOGUE
     </GUI>
   </step>
   <step>
-    <name>Replace_isbn</name>
-    <type>SetValueConstant</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <usevar>N</usevar>
-    <fields>
-      <field>
-        <name>ISBN</name>
-        <value>0000000000000</value>
-        <mask />
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes />
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Replace_language</name>
     <type>SetValueConstant</type>
     <description />
@@ -1533,6 +1499,171 @@ FROM NF26.CATALOGUE
     </remotesteps>
     <GUI>
       <xloc>336</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Generate rows</name>
+    <type>RowGenerator</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <fields>
+      <field>
+        <name>REF</name>
+        <type>Integer</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>1444</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ISBN</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>1111111111111</nullif>
+        <length>13</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TITLE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>AUTHORS</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>LANGUAGE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>PUBDATE</name>
+        <type>String</type>
+        <format>yyyy-MM-dd</format>
+        <currency />
+        <decimal />
+        <group />
+        <nullif>2015-01-01</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>PUBLISHER</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>TAGS</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>GENRE</name>
+        <type>String</type>
+        <format />
+        <currency />
+        <decimal />
+        <group />
+        <nullif>unk</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <limit>1</limit>
+    <never_ending>N</never_ending>
+    <interval_in_ms>5000</interval_in_ms>
+    <row_time_field>now</row_time_field>
+    <last_time_field>FiveSecondsAgo</last_time_field>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <attributes />
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>80</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
